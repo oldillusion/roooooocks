@@ -9,10 +9,15 @@ local basePath = "assets/"
 function loadAssets()
     for key, asset in pairs(assets) do
         assets[key].data = love.graphics.newImage(basePath .. asset.file)
-        print(assets[key].data) -- Print the loaded asset data to the console for verification
+        assets[key].width, assets[key].height = assets[key].data:getDimensions()
+        assets[key].data:setFilter("nearest", "nearest") -- Set filter to nearest for pixel art style
     end
 end
 
 function getAssetData(key)
     return assets[key].data
+end
+
+function getAssetRadius(key)
+    return math.floor(math.max(assets[key].width, assets[key].height) / 2)
 end
