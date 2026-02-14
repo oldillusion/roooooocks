@@ -1,4 +1,5 @@
 require "assets"
+require "shaders"
 require "utilities"
 
 -- Data on the player chatacter, the "Dreamer"
@@ -16,7 +17,7 @@ _ROCK_DATA = {
     speed = 100,
     spawnInterval = 2,
     lastSpawnTime = 0,
-    maxRocks = 10
+    maxRocks = 5
 }
 
 function love.load()
@@ -43,15 +44,11 @@ end
 function love.draw()
     love.graphics.setBackgroundColor(love.math.colorFromBytes(57, 123, 68))
     for _, rock in ipairs(_ROCKS) do
-        love.graphics.setColor(1, 1, 1)
-        love.graphics.draw(getAssetData("stone"), rock.x, rock.y)
-        local radius = getAssetRadius("stone")
         if rock.collision then
-            love.graphics.setColor(1, 0, 0)
-        else
-            love.graphics.setColor(1, 1, 1)
+            love.graphics.setShader(redRockShader)
         end
-        love.graphics.circle("line", rock.x + radius, rock.y + radius, radius)
+        love.graphics.draw(getAssetData("stone"), rock.x, rock.y)
+        love.graphics.setShader()
     end
     love.graphics.setColor(1, 1, 1)
     love.graphics.circle("line", _DREAMER.x, _DREAMER.y, _DREAMER.radius)
