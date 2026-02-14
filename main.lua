@@ -1,14 +1,20 @@
 require "assets"
 
+-- Data on the player chatacter, the "Dreamer"
 _DREAMER = {
     x=0,
     y=0
 }
 
+-- Track all the rocks in the game
 _ROCKS = {
-    {x=100, y=100},
-    {x=200, y=150},
-    {x=300, y=200}
+}
+
+_ROCK_DATA = {
+    speed = 100,
+    spawnInterval = 4,
+    lastSpawnTime = 0,
+    maxRocks = 10
 }
 
 function love.load()
@@ -17,11 +23,16 @@ function love.load()
     -- love.window.setIcon(getAssetData("windowIcon"))
     love.mouse.setVisible(false)
     love.window.setMode(1280, 800, {fullscreen = false, vsync = false})
+    _ROCK_DATA.lastSpawnTime = love.timer.getTime()
 end
 
 function love.update(dt)
     _DREAMER.x, _DREAMER.y = love.mouse.getPosition()
-    print(getAssetData("stone")) -- Print the loaded asset data to the console for verification
+    local currentTime = love.timer.getTime()
+    if currentTime - _ROCK_DATA.lastSpawnTime >= _ROCK_DATA.spawnInterval and #_ROCKS < _ROCK_DATA.maxRocks then
+        table.insert(_ROCKS, {x = math.random(0, 1280), y = math.random(0, 800)})
+        _ROCK_DATA.lastSpawnTime = currentTime
+    end
 end
 
 function love.draw()
