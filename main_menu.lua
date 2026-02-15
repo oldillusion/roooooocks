@@ -2,22 +2,38 @@ local buttons = {
     {
         text = "New Game",
         action = "new_game",
-        state = "normal"
+        state = "normal",
+        x1 = 0,
+        y1 = 0,
+        x2 = 0,
+        y2 = 0
     },
     {
         text = "Continue",
         action = "continue",
-        state = "normal"
+        state = "normal",
+        x1 = 0,
+        y1 = 0,
+        x2 = 0,
+        y2 = 0
     },
     {
         text = "Settings",
         action = "settings",
-        state = "normal"
+        state = "normal",
+        x1 = 0,
+        y1 = 0,
+        x2 = 0,
+        y2 = 0
     },
     {
         text = "Exit",
         action = "exit",
-        state = "normal"
+        state = "normal",
+        x1 = 0,
+        y1 = 0,
+        x2 = 0,
+        y2 = 0
     }
 }
 
