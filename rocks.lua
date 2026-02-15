@@ -8,6 +8,12 @@ local rockData = {
     initialHealth = 2.0
 }
 
+local assetModule = nil
+
+local function init(assets)
+    assetModule = assets
+end
+
 local function getSpawnedRocks()
     return spawnedRocks
 end
@@ -31,9 +37,9 @@ local function updateSpawnedRocks(dt)
             _DREAMER.x,
             _DREAMER.y,
             _DREAMER.radius,
-            rock.x + getAssetRadius("stone"),
-            rock.y + getAssetRadius("stone"),
-            getAssetRadius("stone")
+            rock.x + assetModule.getAssetRadius("stone"),
+            rock.y + assetModule.getAssetRadius("stone"),
+            assetModule.getAssetRadius("stone")
         )
         if rock.collision then
             rock.health = rock.health - dt
@@ -45,6 +51,7 @@ local function updateSpawnedRocks(dt)
 end
 
 return {
+    init = init,
     getSpawnedRocks = getSpawnedRocks,
     spawnRock = spawnRock,
     updateSpawnedRocks = updateSpawnedRocks

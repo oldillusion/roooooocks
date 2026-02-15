@@ -6,7 +6,7 @@ local assets = {
 }
 local basePath = "assets/"
 
-function loadAssets()
+local function loadAssets()
     for key, asset in pairs(assets) do
         assets[key].data = love.graphics.newImage(basePath .. asset.file)
         assets[key].width, assets[key].height = assets[key].data:getDimensions()
@@ -14,11 +14,11 @@ function loadAssets()
     end
 end
 
-function getAssetData(key)
+local function getAssetData(key)
     return assets[key].data
 end
 
-function getAssetRadius(key)
+local function getAssetRadius(key)
     return math.floor(math.max(assets[key].width, assets[key].height) / 2)
 end
 
