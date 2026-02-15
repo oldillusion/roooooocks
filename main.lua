@@ -1,6 +1,7 @@
 require "assets"
-require "shaders"
 require "utilities"
+
+shaders = require "shaders"
 
 -- Data on the player chatacter, the "Dreamer"
 _DREAMER = {
@@ -45,7 +46,7 @@ function love.draw()
     love.graphics.setBackgroundColor(love.math.colorFromBytes(57, 123, 68))
     for _, rock in ipairs(_ROCKS) do
         if rock.collision then
-            love.graphics.setShader(redRockShader)
+            love.graphics.setShader(shaders.redRockShader)
         end
         love.graphics.draw(getAssetData("stone"), rock.x, rock.y)
         love.graphics.setShader()
