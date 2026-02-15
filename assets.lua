@@ -21,3 +21,9 @@ end
 function getAssetRadius(key)
     return math.floor(math.max(assets[key].width, assets[key].height) / 2)
 end
+
+return {
+    loadAssets = loadAssets,
+    getAssetData = getAssetData,
+    getAssetRadius = getAssetRadius
+}
