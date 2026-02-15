@@ -1,6 +1,13 @@
 local assets = {
     stone = {
+        type = "image",
         file = 'simple_stone.png',
+        data = nil
+    },
+    font = {
+        type = "font",
+        file = 'Timeburner-xJB8.ttf',
+        size = 18,
         data = nil
     }
 }
@@ -8,9 +15,13 @@ local basePath = "assets/"
 
 local function loadAssets()
     for key, asset in pairs(assets) do
-        assets[key].data = love.graphics.newImage(basePath .. asset.file)
-        assets[key].width, assets[key].height = assets[key].data:getDimensions()
-        assets[key].data:setFilter("nearest", "nearest") -- Set filter to nearest for pixel art style
+        if asset.type == "font" then
+            assets[key].data = love.graphics.newFont(basePath .. asset.file, asset.size)
+        elseif asset.type == "image" then
+            assets[key].data = love.graphics.newImage(basePath .. asset.file)
+            assets[key].width, assets[key].height = assets[key].data:getDimensions()
+            assets[key].data:setFilter("nearest", "nearest") -- Set filter to nearest for pixel art style
+        end
     end
 end
 

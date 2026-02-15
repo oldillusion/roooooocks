@@ -2,22 +2,26 @@ local buttons = {
     {
         text = "New Game",
         action = "new_game",
-        state = nil
+        state = "normal",
+        x1 = 0, y1 = 0, x2 = 0, y2 = 0
     },
     {
         text = "Continue",
         action = "continue",
-        state = nil
+        state = "normal",
+        x1 = 0, y1 = 0, x2 = 0, y2 = 0
     },
     {
         text = "Settings",
         action = "settings",
-        state = nil
+        state = "normal",
+        x1 = 0, y1 = 0, x2 = 0, y2 = 0
     },
     {
         text = "Exit",
         action = "exit",
-        state = nil
+        state = "normal",
+        x1 = 0, y1 = 0, x2 = 0, y2 = 0
     }
 }
 
@@ -25,9 +29,29 @@ local function load()
 
 end
 
+local function checkHover(button, x, y)
+    if x >= button.x1 and x <= button.x2 and y >= button.y1 and y <= button.y2 then
+        return true
+    end
+    return false
+end
+
 local function update()
-    -- check for hovered buttons and update their state
-    -- check for clicked buttons and trigger their actions
+    local mouseX, mouseY = love.mouse.getPosition()
+    for _, button in pairs(buttons) do
+        if checkHover(button, mouseX, mouseY) then
+            button.state = "hovered"
+            if love.mouse.isDown(1) then
+                button.state = "clicked"
+                if button.action == "exit" then
+                    print("Exiting game...")
+                    love.event.quit()
+                end
+            end
+        else
+            button.state = "normal"
+        end
+    end
 end
 
 local function draw()
@@ -37,29 +61,25 @@ local function draw()
     local startY = (height - (#buttons * buttonHeight + (#buttons - 1) * buttonSpacing)) / 2
 
     for i, button in pairs(buttons) do
-        love.graphics.rectangle("line", width / 2 - 100, startY + (tonumber(i) - 1) * (buttonHeight + buttonSpacing), 200, buttonHeight)
+        button.x1 = width / 2 - 100
+        button.y1 = startY + (tonumber(i) - 1) * (buttonHeight + buttonSpacing)
+        button.x2 = button.x1 + 200
+        button.y2 = button.y1 + buttonHeight
+        if button.state == "hovered" then
+            love.graphics.setColor(0.7, 0.7, 0.7)
+        else
+            love.graphics.setColor(1, 1, 1)
+        end
+        love.graphics.rectangle("line", button.x1, button.y1, 200, buttonHeight)
         love.graphics.printf(
             button.text,
-            width / 2 - 100,
-            startY + (tonumber(i) - 1) * (buttonHeight + buttonSpacing) + buttonHeight / 2 - 6,
+            button.x1,
+            button.y1 + buttonHeight / 2 - 12,
             200,
             "center"
         )
     end
 end
-
-local function mousepressed(x, y, button)
-    if button == 1 then
-        local width, height = love.graphics.getDimensions()
-        local buttonHeight = 50
-        local buttonSpacing = 20
-        local startY = (height - (#buttons * buttonHeight + (#buttons - 1) * buttonSpacing)) / 2
-
-        for i, btn in pairs(buttons) do
-            local btnX = width / 2 - 100
-            local btnY = startY + (tonumber(i) - 1) * (buttonHeight + buttonSpacing)
-            if x >= btnX and x <= btnX + 200 and y >= btnY and y <= btnY + buttonHeight then
-                print("Button clicked: " .. btn.action)
 
 return {
     load = load,
