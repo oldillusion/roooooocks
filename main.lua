@@ -18,10 +18,12 @@ _ROCK_DATA = {
     speed = 100,
     spawnInterval = 2,
     lastSpawnTime = 0,
-    maxRocks = 5
+    maxRocks = 5,
+    initialHealth = 2.0
 }
 
 function love.load()
+    math.randomseed(os.time())
     loadAssets()
     love.window.setTitle("Rooooocks!")
     -- love.window.setIcon(getAssetData("windowIcon"))
@@ -34,11 +36,24 @@ function love.update(dt)
     _DREAMER.x, _DREAMER.y = love.mouse.getPosition()
     local currentTime = love.timer.getTime()
     if currentTime - _ROCK_DATA.lastSpawnTime >= _ROCK_DATA.spawnInterval and #_ROCKS < _ROCK_DATA.maxRocks then
-        table.insert(_ROCKS, {x = math.random(0, 1280), y = math.random(0, 800)})
+        table.insert(_ROCKS, {x = math.random(0, 1280), y = math.random(0, 800), health = _ROCK_DATA.initialHealth})
         _ROCK_DATA.lastSpawnTime = currentTime
     end
-    for _, rock in ipairs(_ROCKS) do
-        rock.collision = checkCollision(_DREAMER.x, _DREAMER.y, _DREAMER.radius, rock.x + getAssetRadius("stone"), rock.y + getAssetRadius("stone"), getAssetRadius("stone"))
+    for idx, rock in ipairs(_ROCKS) do
+        rock.collision = checkCollision(
+            _DREAMER.x,
+            _DREAMER.y,
+            _DREAMER.radius,
+            rock.x + getAssetRadius("stone"),
+            rock.y + getAssetRadius("stone"),
+            getAssetRadius("stone")
+        )
+        if rock.collision then
+            rock.health = rock.health - dt
+            if rock.health <= 0 then
+                table.remove(_ROCKS, idx)
+            end
+        end
     end
 end
 
