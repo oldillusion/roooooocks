@@ -2,22 +2,22 @@ local buttons = {
     {
         text = "New Game",
         action = "new_game",
-        state = nil
+        state = "normal"
     },
     {
         text = "Continue",
         action = "continue",
-        state = nil
+        state = "normal"
     },
     {
         text = "Settings",
         action = "settings",
-        state = nil
+        state = "normal"
     },
     {
         text = "Exit",
         action = "exit",
-        state = nil
+        state = "normal"
     }
 }
 
@@ -41,25 +41,12 @@ local function draw()
         love.graphics.printf(
             button.text,
             width / 2 - 100,
-            startY + (tonumber(i) - 1) * (buttonHeight + buttonSpacing) + buttonHeight / 2 - 6,
+            startY + (tonumber(i) - 1) * (buttonHeight + buttonSpacing) + buttonHeight / 2 - 12,
             200,
             "center"
         )
     end
 end
-
-local function mousepressed(x, y, button)
-    if button == 1 then
-        local width, height = love.graphics.getDimensions()
-        local buttonHeight = 50
-        local buttonSpacing = 20
-        local startY = (height - (#buttons * buttonHeight + (#buttons - 1) * buttonSpacing)) / 2
-
-        for i, btn in pairs(buttons) do
-            local btnX = width / 2 - 100
-            local btnY = startY + (tonumber(i) - 1) * (buttonHeight + buttonSpacing)
-            if x >= btnX and x <= btnX + 200 and y >= btnY and y <= btnY + buttonHeight then
-                print("Button clicked: " .. btn.action)
 
 return {
     load = load,

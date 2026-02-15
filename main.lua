@@ -5,12 +5,11 @@ main_menu = require "main_menu"
 shaders = require "shaders"
 rocks = require "rocks"
 
--- Data on the player character, the "Dreamer"
-_DREAMER = {
-    x=0,
-    y=0,
-    radius=15
-}
+-- _DREAMER = {
+--     x=0,
+--     y=0,
+--     radius=15
+-- }
 
 _SCENE_ENUM = {
     MAIN_MENU = 1,
@@ -25,6 +24,7 @@ function love.load()
     math.randomseed(os.time())
     assets.loadAssets()
     rocks.init(assets)
+    love.graphics.setFont(assets.getAssetData("font"))
     -- love.mouse.setVisible(false)
     love.window.setMode(1280, 800, {fullscreen = false, vsync = false})
 end
@@ -44,7 +44,7 @@ function love.draw()
     if _CURRENT_SCENE == _SCENE_ENUM.MAIN_MENU then
         main_menu.draw()
     elseif _CURRENT_SCENE == _SCENE_ENUM.GAME then
-
+        -- will get to this
     end
     -- love.graphics.setBackgroundColor(love.math.colorFromBytes(57, 123, 68))
     -- for _, rock in ipairs(rocks.getSpawnedRocks()) do
