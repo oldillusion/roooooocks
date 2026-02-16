@@ -4,6 +4,11 @@ local assets = {
         file = 'simple_stone.png',
         data = nil
     },
+    menu_bg = {
+        type = "image",
+        file = 'menu_back.png',
+        data = nil
+    },
     font = {
         type = "font",
         file = 'Timeburner-xJB8.ttf',
