@@ -1,4 +1,6 @@
-local rocksModule = nil
+local _rocks = nil
+
+local _gameState = nil
 
 -- _DREAMER = {
 --     x=0,
@@ -6,12 +8,9 @@ local rocksModule = nil
 --     radius=15
 -- }
 
-local function init(rocks)
-    rocksModule = rocks
-end
-
-local function load()
-    love.mouse.setVisible(false)
+local function load(gameState, rocks)
+    _rocks = rocks
+    _gameState = gameState
 end
 
 local function update()
@@ -19,7 +18,7 @@ local function update()
 end
 
 local function draw()
-
+    love.mouse.setVisible(false)
 end
 
 return {

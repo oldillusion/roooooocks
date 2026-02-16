@@ -5,14 +5,10 @@ local main_menu = require "main_menu"
 local shaders = require "shaders"
 local rocks = require "rocks"
 local game = require "game"
+local splash = require "splash"
 
-_SCENE_ENUM = {
-    MAIN_MENU = 1,
-    GAME = 2
-}
-
-_GAME_STATE = {
-    currentScene = _SCENE_ENUM.MAIN_MENU
+local _GAME_STATE = {
+    currentScene = _SCENE_ENUM.SPLASH
 }
 
 function love.load()
@@ -22,7 +18,9 @@ function love.load()
     math.randomseed(os.time())
     assets.loadAssets()
     rocks.init(assets)
-    game.init(rocks)
+    splash.load(_GAME_STATE)
+    main_menu.load(_GAME_STATE, assets)
+    game.load(_GAME_STATE, rocks)
     love.graphics.setFont(assets.getAssetData("font"))
     love.window.setMode(1280, 800, {fullscreen = false, vsync = false})
 end
@@ -31,8 +29,10 @@ function love.update(dt)
     -- _DREAMER.x, _DREAMER.y = love.mouse.getPosition()
     -- local currentTime = love.timer.getTime()
     -- rocks.updateSpawnedRocks(dt)
-    if _GAME_STATE.currentScene == _SCENE_ENUM.MAIN_MENU then
-        main_menu.update()
+    if _GAME_STATE.currentScene == _SCENE_ENUM.SPLASH then
+        splash.update(dt)
+    elseif _GAME_STATE.currentScene == _SCENE_ENUM.MAIN_MENU then
+        main_menu.update(dt)
     elseif _GAME_STATE.currentScene == _SCENE_ENUM.GAME then
         -- rocks.updateSpawnedRocks(dt)
     end
@@ -40,7 +40,9 @@ end
 
 function love.draw()
     -- love.graphics.scale(2, 2)
-    if _GAME_STATE.currentScene == _SCENE_ENUM.MAIN_MENU then
+    if _GAME_STATE.currentScene == _SCENE_ENUM.SPLASH then
+        splash.draw()
+    elseif _GAME_STATE.currentScene == _SCENE_ENUM.MAIN_MENU then
         main_menu.draw()
     elseif _GAME_STATE.currentScene == _SCENE_ENUM.GAME then
         -- will get to this

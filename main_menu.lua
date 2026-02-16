@@ -29,12 +29,12 @@ local buttons = {
     }
 }
 
-local function init(gameState)
+local _gameState = nil
+local _assets = nil
 
-end
-
-local function load()
-
+local function load(gameState, assets)
+    _gameState = gameState
+    _assets = assets
 end
 
 local function checkHover(button, x, y)
@@ -53,7 +53,7 @@ local function update()
                 button.state = "clicked"
                 if button.action == "new_game" then
                     print("Starting new game...")
-                    _GAME_STATE.currentScene = _SCENE_ENUM.GAME
+                    _gameState.currentScene = _SCENE_ENUM.GAME
                 elseif button.action == "exit" then
                     print("Exiting game...")
                     love.event.quit()
@@ -70,6 +70,9 @@ local function draw()
     local buttonHeight = 50
     local buttonSpacing = 20
     local startY = (height - (#buttons * buttonHeight + (#buttons - 1) * buttonSpacing)) / 2
+
+    love.graphics.setColor(1, 1, 1, 0.25)
+    love.graphics.draw(_assets.getAssetData("menu_bg"), 0, 0)
 
     for i, button in pairs(buttons) do
         button.x1 = width / 2 - 100

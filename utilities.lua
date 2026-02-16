@@ -1,3 +1,10 @@
+_SCENE_ENUM = {
+    SPLASH = 0,
+    MAIN_MENU = 1,
+    GAME = 2
+}
+
+
 function checkCollision(x1, y1, r1, x2, y2, r2)
     local dx = x2 - x1
     local dy = y2 - y1
