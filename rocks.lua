@@ -22,7 +22,7 @@ local function spawnRock()
     table.insert(spawnedRocks, {x = math.random(0, 1280), y = math.random(0, 800), health = rockData.initialHealth})
 end
 
-local function updateSpawnedRocks(dt)
+local function updateSpawnedRocks(dt, dreamer)
     local currentTime = love.timer.getTime()
     if #spawnedRocks < rockData.maxRocks and currentTime - rockData.lastSpawnTime >= rockData.spawnInterval then
         spawnRock()
@@ -34,9 +34,9 @@ local function updateSpawnedRocks(dt)
     end
     for idx, rock in ipairs(spawnedRocks) do
         rock.collision = checkCollision(
-            _DREAMER.x,
-            _DREAMER.y,
-            _DREAMER.radius,
+            dreamer.x,
+            dreamer.y,
+            dreamer.radius,
             rock.x + assetModule.getAssetRadius("stone"),
             rock.y + assetModule.getAssetRadius("stone"),
             assetModule.getAssetRadius("stone")
