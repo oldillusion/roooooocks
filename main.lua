@@ -1,31 +1,29 @@
 require "utilities"
 
-assets = require "assets"
-main_menu = require "main_menu"
-shaders = require "shaders"
-rocks = require "rocks"
-
--- _DREAMER = {
---     x=0,
---     y=0,
---     radius=15
--- }
+local assets = require "assets"
+local main_menu = require "main_menu"
+local shaders = require "shaders"
+local rocks = require "rocks"
+local game = require "game"
 
 _SCENE_ENUM = {
     MAIN_MENU = 1,
     GAME = 2
 }
 
-_CURRENT_SCENE = _SCENE_ENUM.MAIN_MENU
+_GAME_STATE = {
+    currentScene = _SCENE_ENUM.MAIN_MENU
+}
 
 function love.load()
+    love.graphics.setDefaultFilter("nearest", "nearest")
     love.window.setTitle("Rooooocks!")
     -- TODO: Set the window icon to the stone sprite
     math.randomseed(os.time())
     assets.loadAssets()
     rocks.init(assets)
+    game.init(rocks)
     love.graphics.setFont(assets.getAssetData("font"))
-    -- love.mouse.setVisible(false)
     love.window.setMode(1280, 800, {fullscreen = false, vsync = false})
 end
 
@@ -33,17 +31,18 @@ function love.update(dt)
     -- _DREAMER.x, _DREAMER.y = love.mouse.getPosition()
     -- local currentTime = love.timer.getTime()
     -- rocks.updateSpawnedRocks(dt)
-    if _CURRENT_SCENE == _SCENE_ENUM.MAIN_MENU then
+    if _GAME_STATE.currentScene == _SCENE_ENUM.MAIN_MENU then
         main_menu.update()
-    elseif _CURRENT_SCENE == _SCENE_ENUM.GAME then
-        rocks.updateSpawnedRocks(dt)
+    elseif _GAME_STATE.currentScene == _SCENE_ENUM.GAME then
+        -- rocks.updateSpawnedRocks(dt)
     end
 end
 
 function love.draw()
-    if _CURRENT_SCENE == _SCENE_ENUM.MAIN_MENU then
+    -- love.graphics.scale(2, 2)
+    if _GAME_STATE.currentScene == _SCENE_ENUM.MAIN_MENU then
         main_menu.draw()
-    elseif _CURRENT_SCENE == _SCENE_ENUM.GAME then
+    elseif _GAME_STATE.currentScene == _SCENE_ENUM.GAME then
         -- will get to this
     end
     -- love.graphics.setBackgroundColor(love.math.colorFromBytes(57, 123, 68))
