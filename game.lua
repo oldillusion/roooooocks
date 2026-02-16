@@ -34,6 +34,7 @@ local function draw()
     end
     love.graphics.setColor(1, 1, 1)
     love.graphics.circle("line", _dreamer.x, _dreamer.y, _dreamer.radius)
+    love.graphics.print("Rocks collected: " .. _gameState.sessionData.rocksCollected, 10, 10)
     end
 
 return {

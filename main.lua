@@ -8,7 +8,13 @@ local game = require "game"
 local splash = require "splash"
 
 local _GAME_STATE = {
-    currentScene = _SCENE_ENUM.SPLASH
+    currentScene = _SCENE_ENUM.SPLASH,
+    sessionData = {
+        rocksCollected = 0,
+        lucidityCollected = 0,
+        insightsCollected = 0,
+        restarts = 0
+    }
 }
 
 function love.load()
@@ -17,7 +23,7 @@ function love.load()
     -- TODO: Set the window icon to the stone sprite
     math.randomseed(os.time())
     assets.loadAssets()
-    rocks.init(assets)
+    rocks.load(_GAME_STATE, assets)
     splash.load(_GAME_STATE)
     main_menu.load(_GAME_STATE, assets)
     game.load(_GAME_STATE, rocks, assets, shaders)
