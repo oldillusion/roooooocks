@@ -26,11 +26,10 @@ local function draw()
     love.mouse.setVisible(false)
     love.graphics.setBackgroundColor(love.math.colorFromBytes(57, 123, 68))
     for _, rock in ipairs(_rocks.getSpawnedRocks()) do
-        if rock.collision then
-            love.graphics.setShader(_shaders.redRockShader)
-        end
-        love.graphics.draw(_assets.getAssetData("stone"), rock.x, rock.y)
-        love.graphics.setShader()
+        love.graphics.setColor(0.25, 0.25, 0.25, 0.5 - rock.lift / 10)
+        love.graphics.ellipse("fill", rock.x + _assets.getAssetRadius("stone"), rock.y + _assets.getAssetRadius("stone") * 2, _assets.getAssetRadius("stone"), _assets.getAssetRadius("stone") / 5)
+        love.graphics.setColor(1, 1, 1, 1)
+        love.graphics.draw(_assets.getAssetData("stone"), rock.x, rock.y - (rock.lift *rock.lift * 3))
     end
     love.graphics.setColor(1, 1, 1)
     love.graphics.circle("line", _dreamer.x, _dreamer.y, _dreamer.radius)

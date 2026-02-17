@@ -5,7 +5,7 @@ local rockData = {
     spawnInterval = 1,
     lastSpawnTime = 0,
     maxRocks = 5,
-    initialHealth = 1.0
+    lifeTime = 2.0
 }
 
 local _assets = nil
@@ -22,7 +22,7 @@ local function getSpawnedRocks()
 end
 
 local function spawnRock()
-    table.insert(spawnedRocks, {x = math.random(0, 1280), y = math.random(0, 800), health = rockData.initialHealth})
+    table.insert(spawnedRocks, {x = math.random(0, 1280), y = math.random(0, 800), lift = 0})
 end
 
 local function updateSpawnedRocks(dt, dreamer)
@@ -32,7 +32,7 @@ local function updateSpawnedRocks(dt, dreamer)
         rockData.lastSpawnTime = currentTime
     end
     if currentTime - rockData.lastSpawnTime >= rockData.spawnInterval and #spawnedRocks < rockData.maxRocks then
-        table.insert(spawnedRocks, {x = math.random(0, 1280), y = math.random(0, 800), health = rockData.initialHealth})
+        spawnRock()
         rockData.lastSpawnTime = currentTime
     end
     for idx, rock in ipairs(spawnedRocks) do
@@ -45,8 +45,8 @@ local function updateSpawnedRocks(dt, dreamer)
             _assets.getAssetRadius("stone")
         )
         if rock.collision then
-            rock.health = rock.health - dt
-            if rock.health <= 0 then
+            rock.lift = rock.lift + dt
+            if rock.lift >= rockData.lifeTime then
                 table.remove(spawnedRocks, idx)
                 _gameState.sessionData.rocksCollected = _gameState.sessionData.rocksCollected + 1
             end
