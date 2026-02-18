@@ -5,7 +5,7 @@ local rockData = {
     spawnInterval = 1,
     lastSpawnTime = 0,
     maxRocks = 5,
-    lifeTime = 2.0
+    lifeTime = 0.5
 }
 
 local _assets = nil
@@ -22,7 +22,7 @@ local function getSpawnedRocks()
 end
 
 local function spawnRock()
-    table.insert(spawnedRocks, {x = math.random(0, 1280), y = math.random(0, 800), lift = 0})
+    table.insert(spawnedRocks, {x = math.random(25, 1265), y = math.random(50, 775), lift = 0})
 end
 
 local function updateSpawnedRocks(dt, dreamer)

@@ -51,3 +51,11 @@ function love.draw()
         game.draw()
     end
 end
+
+-- function love.mousepressed(x, y, button)
+--     if _GAME_STATE.currentScene == _SCENE_ENUM.MAIN_MENU then
+--         main_menu.mousepressed(x, y, button)
+--     elseif _GAME_STATE.currentScene == _SCENE_ENUM.GAME then
+--         game.mousepressed(x, y, button)
+--     end
+-- end
