@@ -2,16 +2,19 @@ local spawnedRocks = {
 }
 
 local rockData = {
-    spawnInterval = 2,
+    spawnInterval = 1,
     lastSpawnTime = 0,
     maxRocks = 5,
-    initialHealth = 2.0
+    lifeTime = 0.5
 }
 
-local assetModule = nil
+local _assets = nil
 
-local function init(assets)
-    assetModule = assets
+local _gameState = nil
+
+local function load(gameState, assets)
+    _assets = assets
+    _gameState = gameState
 end
 
 local function getSpawnedRocks()
@@ -19,39 +22,40 @@ local function getSpawnedRocks()
 end
 
 local function spawnRock()
-    table.insert(spawnedRocks, {x = math.random(0, 1280), y = math.random(0, 800), health = rockData.initialHealth})
+    table.insert(spawnedRocks, {x = math.random(25, 1265), y = math.random(50, 775), lift = 0})
 end
 
-local function updateSpawnedRocks(dt)
+local function updateSpawnedRocks(dt, dreamer)
     local currentTime = love.timer.getTime()
     if #spawnedRocks < rockData.maxRocks and currentTime - rockData.lastSpawnTime >= rockData.spawnInterval then
         spawnRock()
         rockData.lastSpawnTime = currentTime
     end
     if currentTime - rockData.lastSpawnTime >= rockData.spawnInterval and #spawnedRocks < rockData.maxRocks then
-        table.insert(spawnedRocks, {x = math.random(0, 1280), y = math.random(0, 800), health = rockData.initialHealth})
+        spawnRock()
         rockData.lastSpawnTime = currentTime
     end
     for idx, rock in ipairs(spawnedRocks) do
         rock.collision = checkCollision(
-            _DREAMER.x,
-            _DREAMER.y,
-            _DREAMER.radius,
-            rock.x + assetModule.getAssetRadius("stone"),
-            rock.y + assetModule.getAssetRadius("stone"),
-            assetModule.getAssetRadius("stone")
+            dreamer.x,
+            dreamer.y,
+            dreamer.radius,
+            rock.x + _assets.getAssetRadius("stone"),
+            rock.y + _assets.getAssetRadius("stone"),
+            _assets.getAssetRadius("stone")
         )
         if rock.collision then
-            rock.health = rock.health - dt
-            if rock.health <= 0 then
+            rock.lift = rock.lift + dt
+            if rock.lift >= rockData.lifeTime then
                 table.remove(spawnedRocks, idx)
+                _gameState.sessionData.rocksCollected = _gameState.sessionData.rocksCollected + 1
             end
         end
     end
 end
 
 return {
-    init = init,
+    load = load,
     getSpawnedRocks = getSpawnedRocks,
     spawnRock = spawnRock,
     updateSpawnedRocks = updateSpawnedRocks
