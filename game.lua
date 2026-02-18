@@ -45,19 +45,10 @@ local function update(dt)
     for _, button in pairs(buttons) do
         if checkHover(button, _dreamer.x, _dreamer.y) then
             button.state = "hovered" -- Not used yet, but could be used to change button appearance
-            -- TODO: This is bad, we should have a separate function for handling button clicks
-            if love.mouse.isDown(1) then
-                if button.action == "upgrade" then
-                    displayUpgradePath = not displayUpgradePath
-                elseif button.action == "settings" then
-                    print("Opening settings...")
-                end
-            end
         else
             button.state = "normal"
         end
     end
-
 end
 
 local function draw()
@@ -87,9 +78,22 @@ local function draw()
     end
 end
 
+local function mousereleased(x, y, mouseButton)
+    for _, button in pairs(buttons) do
+        if mouseButton == 1 and checkHover(button, x, y) then
+            if button.action == "upgrade" then
+                displayUpgradePath = not displayUpgradePath
+            elseif button.action == "settings" then
+                print("Opening settings...")
+            end
+        end
+    end
+end
+
 return {
     init = init,
     load = load,
     update = update,
-    draw = draw
+    draw = draw,
+    mousereleased = mousereleased
 }

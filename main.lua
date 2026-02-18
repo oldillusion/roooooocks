@@ -8,7 +8,7 @@ local game = require "game"
 local splash = require "splash"
 
 local _GAME_STATE = {
-    currentScene = _SCENE_ENUM.GAME,
+    currentScene = _SCENE_ENUM.SPLASH,
     sessionData = {
         rocksCollected = 0,
         lucidityCollected = 0,
@@ -52,10 +52,10 @@ function love.draw()
     end
 end
 
--- function love.mousepressed(x, y, button)
---     if _GAME_STATE.currentScene == _SCENE_ENUM.MAIN_MENU then
---         main_menu.mousepressed(x, y, button)
---     elseif _GAME_STATE.currentScene == _SCENE_ENUM.GAME then
---         game.mousepressed(x, y, button)
---     end
--- end
+function love.mousereleased(x, y, button)
+    if _GAME_STATE.currentScene == _SCENE_ENUM.MAIN_MENU then
+        main_menu.mousereleased(x, y, button)
+    elseif _GAME_STATE.currentScene == _SCENE_ENUM.GAME then
+        game.mousereleased(x, y, button)
+    end
+end

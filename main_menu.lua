@@ -49,16 +49,6 @@ local function update()
     for _, button in pairs(buttons) do
         if button.enabled and checkHover(button, mouseX, mouseY) then
             button.state = "hovered"
-            if love.mouse.isDown(1) then
-                button.state = "clicked"
-                if button.action == "new_game" then
-                    print("Starting new game...")
-                    _gameState.currentScene = _SCENE_ENUM.GAME
-                elseif button.action == "exit" then
-                    print("Exiting game...")
-                    love.event.quit()
-                end
-            end
         else
             button.state = "normal"
         end
@@ -97,8 +87,21 @@ local function draw()
     end
 end
 
+local function mousereleased(x, y, mouseButton)
+    for _, button in pairs(buttons) do
+        if button.enabled and mouseButton == 1 and checkHover(button, x, y) then
+            if button.action == "new_game" then
+                _gameState.currentScene = _SCENE_ENUM.GAME
+            elseif button.action == "exit" then
+                love.event.quit()
+            end
+        end
+    end
+end
+
 return {
     load = load,
     update = update,
-    draw = draw
+    draw = draw,
+    mousereleased = mousereleased
 }
