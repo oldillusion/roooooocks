@@ -1,3 +1,5 @@
+local upgrade_path = require "upgrade_path"
+
 local _rocks = nil
 local _gameState = nil
 local _assets = nil
@@ -75,6 +77,8 @@ local function draw()
     if displayUpgradePath then
         love.graphics.setColor(0, 0, 0, 0.65)
         love.graphics.rectangle("fill", 0, 50, 1280, 800)
+        love.graphics.setColor(1, 1, 1)
+        upgrade_path.draw()
     end
 end
 
