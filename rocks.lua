@@ -49,6 +49,7 @@ local function updateSpawnedRocks(dt, dreamer)
             if rock.lift >= rockData.lifeTime then
                 table.remove(spawnedRocks, idx)
                 _gameState.sessionData.rocksCollected = _gameState.sessionData.rocksCollected + 1
+                _gameState.sessionData.lucidityCollected = _gameState.sessionData.lucidityCollected + _gameState.sessionData.rockValue
             end
         end
     end

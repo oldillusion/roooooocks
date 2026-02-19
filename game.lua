@@ -63,7 +63,7 @@ local function draw()
     love.graphics.rectangle("fill", 0, 0, 1280, 50)
     love.graphics.setColor(1, 1, 1)
     love.graphics.circle("line", _dreamer.x, _dreamer.y, _dreamer.radius)
-    love.graphics.print("Rocks collected: " .. _gameState.sessionData.rocksCollected, 10, 10)
+    love.graphics.print("Lucidity: " .. _gameState.sessionData.lucidityCollected, 10, 10)
     for _, button in pairs(buttons) do
         love.graphics.setColor(1, 1, 1, 0.25)
         love.graphics.rectangle("fill", button.x1, button.y1, button.x2 - button.x1, button.y2 - button.y1)
@@ -88,6 +88,9 @@ local function mousereleased(x, y, mouseButton)
                 print("Opening settings...")
             end
         end
+    end
+    if displayUpgradePath then
+        _upgrade_path.mousereleased(x, y, mouseButton)
     end
 end
 

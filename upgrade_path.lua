@@ -42,7 +42,8 @@ local _upgrades = {
             value = 0,
             max = 3,
             hover = false,
-            x1 = 0, y1 = 0, x2 = 0, y2 = 0
+            x1 = 0, y1 = 0, x2 = 0, y2 = 0,
+            costs = {50000, 250000, 1000000}
         },
         {
             slug = "rock_num_max",
@@ -51,7 +52,8 @@ local _upgrades = {
             value = 0,
             max = 5,
             hover = false,
-            x1 = 0, y1 = 0, x2 = 0, y2 = 0
+            x1 = 0, y1 = 0, x2 = 0, y2 = 0,
+            costs = {50000, 250000, 1000000, 5000000, 2500000}
         },
         {
             slug = "moving_rocks",
@@ -60,7 +62,8 @@ local _upgrades = {
             value = 0,
             max = 1,
             hover = false,
-            x1 = 0, y1 = 0, x2 = 0, y2 = 0
+            x1 = 0, y1 = 0, x2 = 0, y2 = 0,
+            costs = {100000}
         },
         {
             slug = "moving_rocks",
@@ -69,7 +72,8 @@ local _upgrades = {
             value = 0,
             max = 1,
             hover = false,
-            x1 = 0, y1 = 0, x2 = 0, y2 = 0
+            x1 = 0, y1 = 0, x2 = 0, y2 = 0,
+            costs = {100000}
         },
     },
     {}
@@ -120,8 +124,27 @@ local function draw()
     end
 end
 
+local function mousereleased(x, y, mouseButton)
+    for row_name, row in pairs(_upgrades) do
+        for idx, upgrade in ipairs(row) do
+            if mouseButton == 1 and upgrade.hover then
+                if upgrade.value < upgrade.max and _gameState.sessionData.lucidityCollected >= upgrade.costs[upgrade.value + 1] then
+                    print(_gameState.sessionData.lucidityCollected, upgrade.costs[upgrade.value + 1])
+                    _gameState.sessionData.lucidityCollected = _gameState.sessionData.lucidityCollected - upgrade.costs[upgrade.value + 1]
+                    upgrade.value = upgrade.value + 1
+                    -- This is awful, put these somewhere else
+                    if upgrade.slug == "rock_value" then
+                        _gameState.sessionData.rockValue = _gameState.sessionData.rockValue + 1
+                    end
+                end
+            end
+        end
+    end
+end
+
 return {
     load = load,
     update = update,
-    draw = draw
+    draw = draw,
+    mousereleased = mousereleased
 }

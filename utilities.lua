@@ -14,7 +14,6 @@ function checkCollision(x1, y1, r1, x2, y2, r2)
 end
 
 function checkHover(button, x, y)
-    -- print(button, x, y)
     if x >= button.x1 and x <= button.x2 and y >= button.y1 and y <= button.y2 then
         return true
     end
