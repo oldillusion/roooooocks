@@ -1,4 +1,4 @@
-local upgrade_path = require "upgrade_path"
+local _upgrade_path = require "upgrade_path"
 
 local _rocks = nil
 local _gameState = nil
@@ -26,18 +26,12 @@ local buttons = {
 
 local displayUpgradePath = false
 
-local function checkHover(button, x, y)
-    if x >= button.x1 and x <= button.x2 and y >= button.y1 and y <= button.y2 then
-        return true
-    end
-    return false
-end
-
 local function load(gameState, rocks, assets, shaders)
     _rocks = rocks
     _gameState = gameState
     _assets = assets
     _shaders = shaders
+    _upgrade_path.load(gameState, assets)
 end
 
 local function update(dt)
@@ -46,10 +40,13 @@ local function update(dt)
     _rocks.updateSpawnedRocks(dt, _dreamer)
     for _, button in pairs(buttons) do
         if checkHover(button, _dreamer.x, _dreamer.y) then
-            button.state = "hovered" -- Not used yet, but could be used to change button appearance
+            button.state = "hovered" -- Not used yet
         else
             button.state = "normal"
         end
+    end
+    if displayUpgradePath then
+        _upgrade_path.update(dt, _dreamer)
     end
 end
 
@@ -78,7 +75,7 @@ local function draw()
         love.graphics.setColor(0, 0, 0, 0.65)
         love.graphics.rectangle("fill", 0, 50, 1280, 800)
         love.graphics.setColor(1, 1, 1)
-        upgrade_path.draw()
+        _upgrade_path.draw()
     end
 end
 

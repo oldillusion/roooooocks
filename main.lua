@@ -8,7 +8,7 @@ local game = require "game"
 local splash = require "splash"
 
 local _GAME_STATE = {
-    currentScene = _SCENE_ENUM.SPLASH,
+    currentScene = _SCENE_ENUM.GAME,
     sessionData = {
         rocksCollected = 0,
         lucidityCollected = 0,
