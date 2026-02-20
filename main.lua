@@ -13,7 +13,8 @@ local _GAME_STATE = {
         rocksCollected = 0,
         lucidityCollected = 0,
         insightsCollected = 0,
-        restarts = 0
+        restarts = 0,
+        rockValue = 1
     }
 }
 
