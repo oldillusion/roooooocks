@@ -4,7 +4,7 @@ local buttons = {
     {
         text = "OK",
         state = "normal",
-        x1 = 480, y1 = 550, x2 = 630, y2 = 590,
+        x1 = 480, y1 = 630, x2 = 630, y2 = 670,
         action = function(gameState)
             -- Save the settings
             gameState.settingsVisible = false
@@ -13,7 +13,7 @@ local buttons = {
     {
         text = "Cancel",
         state = "normal",
-        x1 = 650, y1 = 550, x2 = 800, y2 = 590,
+        x1 = 650, y1 = 630, x2 = 800, y2 = 670,
         action = function(gameState)
             gameState.settingsVisible = false
         end
@@ -61,13 +61,19 @@ local function draw()
     end
 end
 
-local function mouseReleased(x, y, button)
-    if button == 1 then
+local function mousereleased(x, y, mouseButton)
+    for _, button in pairs(buttons) do
+        if button.state == "hovered" and mouseButton == 1 then
+            if button.action then
+                button.action(_gameState)
+            end
+        end
     end
 end
 
 return {
     load = load,
     update = update,
-    draw = draw
+    draw = draw,
+    mousereleased = mousereleased
 }
