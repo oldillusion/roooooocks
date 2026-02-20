@@ -11,7 +11,10 @@ local _upgrades = {
             max = 5,
             hover = false,
             x1 = 0, y1 = 0, x2 = 0, y2 = 0,
-            costs = {10, 50, 500, 5000, 25000}
+            costs = {10, 50, 500, 5000, 25000},
+            action = function(gameState)
+                gameState.sessionData.rockValue = gameState.sessionData.rockValue + 1
+            end
         },
         {
             slug = "rock_num_max",
@@ -129,12 +132,10 @@ local function mousereleased(x, y, mouseButton)
         for idx, upgrade in ipairs(row) do
             if mouseButton == 1 and upgrade.hover then
                 if upgrade.value < upgrade.max and _gameState.sessionData.lucidityCollected >= upgrade.costs[upgrade.value + 1] then
-                    print(_gameState.sessionData.lucidityCollected, upgrade.costs[upgrade.value + 1])
                     _gameState.sessionData.lucidityCollected = _gameState.sessionData.lucidityCollected - upgrade.costs[upgrade.value + 1]
                     upgrade.value = upgrade.value + 1
-                    -- This is awful, put these somewhere else
-                    if upgrade.slug == "rock_value" then
-                        _gameState.sessionData.rockValue = _gameState.sessionData.rockValue + 1
+                    if upgrade.action then
+                        upgrade.action(_gameState)
                     end
                 end
             end
