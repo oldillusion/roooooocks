@@ -11,7 +11,7 @@ local _upgrades = {
             max = 5,
             hover = false,
             x1 = 0, y1 = 0, x2 = 0, y2 = 0,
-            costs = {10, 50, 500, 5000, 25000},
+            costs = {10, 50, 150, 1000, 5000},
             action = function(gameState)
                 gameState.sessionData.rockValue = gameState.sessionData.rockValue + 1
             end
