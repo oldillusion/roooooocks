@@ -4,7 +4,10 @@ local buttons = {
         action = "new_game",
         state = "normal",
         enabled = true,
-        x1 = 0, y1 = 0, x2 = 0, y2 = 0
+        x1 = 0, y1 = 0, x2 = 0, y2 = 0,
+        action = function(gameState)
+            gameState.currentScene = _SCENE_ENUM.GAME
+        end
     },
     {
         text = "Continue",
@@ -18,23 +21,31 @@ local buttons = {
         action = "settings",
         state = "normal",
         enabled = true,
-        x1 = 0, y1 = 0, x2 = 0, y2 = 0
+        x1 = 0, y1 = 0, x2 = 0, y2 = 0,
+        action = function(gameState)
+            gameState.settingsVisible = true
+        end
     },
     {
         text = "Exit",
         action = "exit",
         state = "normal",
         enabled = true,
-        x1 = 0, y1 = 0, x2 = 0, y2 = 0
+        x1 = 0, y1 = 0, x2 = 0, y2 = 0,
+        action = function()
+            love.event.quit()
+        end
     }
 }
 
 local _gameState = nil
 local _assets = nil
+local _settings = nil
 
-local function load(gameState, assets)
+local function load(gameState, assets, settings)
     _gameState = gameState
     _assets = assets
+    _settings = settings
 end
 
 local function checkHover(button, x, y)
@@ -90,10 +101,8 @@ end
 local function mousereleased(x, y, mouseButton)
     for _, button in pairs(buttons) do
         if button.enabled and mouseButton == 1 and checkHover(button, x, y) then
-            if button.action == "new_game" then
-                _gameState.currentScene = _SCENE_ENUM.GAME
-            elseif button.action == "exit" then
-                love.event.quit()
+            if button.action then
+                button.action(_gameState)
             end
         end
     end
