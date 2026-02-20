@@ -34,9 +34,9 @@ local function draw()
     local width, height = love.graphics.getDimensions()
     love.graphics.printf(
         "old illusion presents",
-        width / 2 - 100,
+        width / 2 - 125,
         height / 2 - 12,
-        200,
+        250,
         "center"
     )
 end

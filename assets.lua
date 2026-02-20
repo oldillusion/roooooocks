@@ -12,7 +12,7 @@ local assets = {
     font = {
         type = "font",
         file = 'Timeburner-xJB8.ttf',
-        size = 18,
+        size = 24,
         data = nil
     }
 }
