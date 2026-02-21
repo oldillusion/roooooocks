@@ -19,8 +19,8 @@ local _upgrades = {
         {
             slug = "rock_num_max",
             name = "Max Rocks",
-            description = "Increase the maximum number of rocks that can be on present.",
-            value = 2,
+            description = "Increase the maximum number of rocks that can be spawned at once.",
+            value = 0,
             max = 5,
             hover = false,
             x1 = 0, y1 = 0, x2 = 0, y2 = 0,
@@ -31,10 +31,10 @@ local _upgrades = {
             name = "Rock Spawn Rate",
             description = "Rocks spawn more frequently.",
             value = 0,
-            max = 5,
+            max = 3,
             hover = false,
             x1 = 0, y1 = 0, x2 = 0, y2 = 0,
-            costs = {10, 50, 500, 5000, 25000}
+            costs = {50, 500, 5000}
         }
     },
     {
