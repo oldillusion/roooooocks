@@ -9,7 +9,7 @@ local splash = require "splash"
 local settings = require "settings"
 
 local _GAME_STATE = {
-    currentScene = _SCENE_ENUM.SPLASH,
+    currentScene = _SCENE_ENUM.MAIN_MENU,
     settingsVisible = false,
     sessionData = {
         rocksCollected = 0,

@@ -2,18 +2,9 @@ local _gameState = nil
 
 local buttons = {
     {
-        text = "OK",
+        text = "Done",
         state = "normal",
-        x1 = 480, y1 = 630, x2 = 630, y2 = 670,
-        action = function(gameState)
-            -- Save the settings
-            gameState.settingsVisible = false
-        end
-    },
-    {
-        text = "Cancel",
-        state = "normal",
-        x1 = 650, y1 = 630, x2 = 800, y2 = 670,
+        x1 = 565, y1 = 630, x2 = 715, y2 = 670,
         action = function(gameState)
             gameState.settingsVisible = false
         end
@@ -50,6 +41,9 @@ local function draw()
     love.graphics.rectangle("fill", width / 2 - 200, height / 2 - 300, 400, 600)
     love.graphics.setColor(1, 1, 1, 1)
     love.graphics.rectangle("line", width / 2 - 200, height / 2 - 300, 400, 600)
+    love.graphics.printf("Effects Volume", width / 2 - 180, height / 2 - 280, 360, "center")
+    love.graphics.printf("Music Volume", width / 2 - 180, height / 2 - 100, 360, "center")
+    love.graphics.printf("Fullscreen   ", width / 2 - 180, height / 2 + 80, 400, "center")
     for _, button in pairs(buttons) do
         if button.state == "hovered" then
             love.graphics.setColor(1, 1, 1, 0.5)
