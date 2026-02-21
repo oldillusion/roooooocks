@@ -6,9 +6,11 @@ local shaders = require "shaders"
 local rocks = require "rocks"
 local game = require "game"
 local splash = require "splash"
+local settings = require "settings"
 
 local _GAME_STATE = {
-    currentScene = _SCENE_ENUM.SPLASH,
+    currentScene = _SCENE_ENUM.MAIN_MENU,
+    settingsVisible = false,
     sessionData = {
         rocksCollected = 0,
         lucidityCollected = 0,
@@ -23,11 +25,12 @@ function love.load()
     love.window.setTitle("Rooooocks!")
     -- TODO: Set the window icon to the stone sprite
     math.randomseed(os.time())
+    settings.load(_GAME_STATE)
     assets.loadAssets()
     rocks.load(_GAME_STATE, assets)
     splash.load(_GAME_STATE)
-    main_menu.load(_GAME_STATE, assets)
-    game.load(_GAME_STATE, rocks, assets, shaders)
+    main_menu.load(_GAME_STATE, assets, settings)
+    game.load(_GAME_STATE, rocks, assets, shaders, settings)
     love.graphics.setFont(assets.getAssetData("font"))
     love.window.setMode(1280, 800, {fullscreen = false, vsync = false})
 end
@@ -40,6 +43,9 @@ function love.update(dt)
     elseif _GAME_STATE.currentScene == _SCENE_ENUM.GAME then
         game.update(dt)
     end
+    if _GAME_STATE.settingsVisible then
+        settings.update(dt)
+    end
 end
 
 function love.draw()
@@ -51,9 +57,16 @@ function love.draw()
     elseif _GAME_STATE.currentScene == _SCENE_ENUM.GAME then
         game.draw()
     end
+    if _GAME_STATE.settingsVisible then
+        settings.draw()
+    end
 end
 
 function love.mousereleased(x, y, button)
+    if _GAME_STATE.settingsVisible then
+        settings.mousereleased(x, y, button)
+        return
+    end
     if _GAME_STATE.currentScene == _SCENE_ENUM.MAIN_MENU then
         main_menu.mousereleased(x, y, button)
     elseif _GAME_STATE.currentScene == _SCENE_ENUM.GAME then

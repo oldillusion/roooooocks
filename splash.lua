@@ -33,10 +33,10 @@ local function draw()
     love.graphics.setColor(1, 1, 1, splashData.alpha)
     local width, height = love.graphics.getDimensions()
     love.graphics.printf(
-        "old illusion presents",
-        width / 2 - 100,
-        height / 2 - 12,
-        200,
+        "an old illusion game\n\nmade with LÖVE",
+        width / 2 - 125,
+        height / 2 - 48,
+        250,
         "center"
     )
 end
